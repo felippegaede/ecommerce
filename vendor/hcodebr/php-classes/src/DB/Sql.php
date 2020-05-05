@@ -64,6 +64,10 @@ class Sql {
 
 	}
 
+	public function lastInsertId() {
+		return $this->conn->lastInsertId();
+	}
+
 }
 
  ?>
