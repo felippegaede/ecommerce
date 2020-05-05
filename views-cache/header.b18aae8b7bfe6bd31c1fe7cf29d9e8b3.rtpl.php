@@ -258,8 +258,9 @@ desired effect
         <!-- Optionally, you can add icons to the links -->
         <li><a href="/admin/users/"><i class="fa fa-user"></i> <span>Usuários</span></a></li>
         <li><a href="/admin/categories/"><i class="fa fa-circle"></i> <span>Categorias</span></a></li>
+        <li><a href="/admin/products/"><i class="fa fa-circle"></i> <span>Podutos</span></a></li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+          <a href="#"><i class="fa fa-link"></i> <span>link</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
