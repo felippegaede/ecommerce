@@ -12,6 +12,52 @@ class User extends Model
 
     const SESSION = "User";
     const SECRET = "HcodePhp7_Secret";
+    const ERROR = "UserError";
+    const ERROR_REGISTER = "UserErrorRegister";
+
+    public static function getFromSession ()
+    {
+        $user = new User();
+
+        if (isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]["iduser"] > 0)
+        {          
+
+            $user->setData($_SESSION[User::SESSION]);
+            
+        }
+
+        return $user;
+    }
+
+    public static function checkLogin($inadmin = true)
+    {
+        if 
+        (
+            !isset($_SESSION[User::SESSION]) 
+            || 
+            !$_SESSION[User::SESSION] 
+            || 
+            !(int)$_SESSION[User::SESSION]["iduser"] > 0
+        )
+        {
+            return false;
+        }
+        else 
+        {
+            if ($inadmin === true && (bool)$_SESSION[User::SESSION]["inadmin"] === true)
+            {
+                return true;
+            }
+            else if ($inadmin === false)
+            {
+                return true;
+            }
+            else 
+            {
+               return false; 
+            }
+        }
+    }
 
 
     public static function login ($login , $password)
@@ -19,7 +65,7 @@ class User extends Model
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN", array(
+        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE a.deslogin = :LOGIN", array(
 
             ":LOGIN"=>$login
         ));
@@ -50,18 +96,19 @@ class User extends Model
     {
 
         if
-        (
-            !isset($_SESSION[User::SESSION]) 
-            || 
-            !$_SESSION[User::SESSION] 
-            || 
-            !(int)$_SESSION[User::SESSION]["iduser"] > 0
-            ||
-            (bool)$_SESSION[User::SESSION]["inadmin"] !== $inadmin
-        )
+        (!User::checkLogin($inadmin))
         {
-            header("Location: /admin/login/");
-            exit;
+            if ($inadmin)
+            {
+                header("Location: /admin/login/");
+                exit;
+            }
+            else
+            {
+                header("Location: /login");
+                exit;
+            }           
+
         }
     }
 
@@ -249,5 +296,61 @@ array(
     ));
 
  }
+
+ public static function setError($msg)
+ {
+     $_SESSION[USer::ERROR] = $msg;
+ }
+
+ public static function getError()
+ {
+     $msg =  (isset($_SESSION[USer::ERROR]) && $_SESSION[USer::ERROR]) ? $_SESSION[USer::ERROR] : "";
+
+     USer::clearError();
+
+     return $msg;
+
+ }
+
+ public static function clearError()
+ {
+     $_SESSION[USer::ERROR] = NULL;
+ }
+
+
+ public static function setRegisterError($msg)
+ {
+     $_SESSION[USer::ERROR_REGISTER] = $msg;
+ }
+
+ public static function getRegisterError()
+ {
+     $msg =  (isset($_SESSION[USer::ERROR_REGISTER]) && $_SESSION[USer::ERROR_REGISTER]) ? $_SESSION[USer::ERROR_REGISTER] : "";
+
+     USer::clearRegisterError();
+
+     return $msg;
+
+ }
+
+ public static function clearRegisterError()
+ {
+     $_SESSION[USer::ERROR_REGISTER] = NULL;
+ }
+
+ public static function checkLoginExist($login)
+ {
+
+     $sql = new Sql();
+
+     $results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :deslogin", [
+         ':deslogin'=>$login
+     ]);
+
+     return (count($results) > 0);
+
+ }
+
+ 
 
 }

@@ -89,12 +89,12 @@
                         <div class="product-f-image">
                             <img src="{$value.desphoto}" alt="">
                             <div class="product-hover">
-                                <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Adicionar ao carrinho</a>
-                                <a href="/products/{value.desurl}/" class="view-details-link"><i class="fa fa-link"></i> Ver mais</a>
+                                <a href="/cart/{$value.idproduct}/add" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Adicionar ao carrinho</a>
+                                <a href="/products/{$value.desurl}" class="view-details-link"><i class="fa fa-link"></i> Ver mais</a>
                             </div>
                         </div>
                         
-                        <h2><a href="/products/{value.desurl}/">{$value.desproduct}</a></h2>
+                        <h2><a href="/products/{$value.desurl}">{$value.desproduct}</a></h2>
                         
                         <div class="product-carousel-price">
                             <ins>RS{function="formatPrice($value.vlprice)"}</ins> 

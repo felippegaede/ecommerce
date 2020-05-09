@@ -42,8 +42,13 @@
                         <ul>
                             <li><a href="#"><i class="fa fa-user"></i> Minha Conta</a></li>
                             <li><a href="#"><i class="fa fa-heart"></i> Lista de Desejos</a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i> Meu Carrinho</a></li>
-                            <li><a href="#"><i class="fa fa-lock"></i> Login</a></li>
+                            <li><a href="/cart"><i class="fa fa-shopping-cart"></i> Meu Carrinho</a></li>
+                            <?php if( checkLogin(false) ){ ?>
+                            <li><a href="/profile"><i class="fa fa-user"></i> <?php echo getUserName(); ?></a></li>
+                            <li><a href="/logout"><i class="fa fa-close"></i> Sair</a></li>
+                            <?php }else{ ?>
+                            <li><a href="/login"><i class="fa fa-lock"></i> Login</a></li>
+                            <?php } ?>
                         </ul>
                     </div>
                 </div>
@@ -79,13 +84,13 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="logo">
-                        <h1><a href="#"><img src="/res/site/img/logo.png"></a></h1>
+                        <h1><a href="/"><img src="/res/site/img/logo.png"></a></h1>
                     </div>
                 </div>
                 
                 <div class="col-sm-6">
                     <div class="shopping-item">
-                        <a href="carrinho.html">Carrinho - <span class="cart-amunt">R$100</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
+                        <a href="/cart">Carrinho - <span class="cart-amunt"><?php if( $cart["vlsubtotal"] > 0 ){ ?>R$ <?php echo formatPrice($cart["vlsubtotal"]); ?><?php } ?></span> <i class="fa fa-shopping-cart"></i> <span class="product-count"><?php echo htmlspecialchars( $cart["nrqtd"], ENT_COMPAT, 'UTF-8', FALSE ); ?></span></a>
                     </div>
                 </div>
             </div>
@@ -105,9 +110,9 @@
                 </div> 
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
+                        <li class="active"><a href="/">Home</a></li>
                         <li><a href="#">Produtos</a></li>
-                        <li><a href="#">Carrinho</a></li>
+                        <li><a href="/cart">Carrinho</a></li>
                     </ul>
                 </div>  
             </div>

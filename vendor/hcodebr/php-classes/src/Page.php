@@ -4,6 +4,7 @@
 namespace Hcode;
 
 use Rain\Tpl;
+use \Hcode\Model\Cart;
 
 class Page
 {
@@ -31,7 +32,13 @@ class Page
 
             $this->tpl = new Tpl;
 
+            $cart = Cart::getFromSession();
+
             $this->setData($this->options["data"]);
+            
+            $this->setData(array(
+                "cart"=>$cart->getValues(),                
+            ));
  
             if ($this->options["header"]) $this->tpl->draw("header");
 
