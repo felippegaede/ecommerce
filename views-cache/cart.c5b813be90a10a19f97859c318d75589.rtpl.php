@@ -100,7 +100,7 @@
                                         <tbody>
                                             <tr class="cart-subtotal">
                                                 <th>Subtotal</th>
-                                                <td><span class="amount">R$ <?php echo formatPrice($cart["vlsubtotal"]); ?></span></td>
+                                                <td><?php if( $cart["vlsubtotal"] > 0 ){ ?><span class="amount">R$ <?php echo formatPrice($cart["vlsubtotal"]); ?></span><?php } ?></td>
                                             </tr>
 
                                             <tr class="shipping">
@@ -110,7 +110,7 @@
 
                                             <tr class="order-total">
                                                 <th>Total</th>
-                                                <td><strong><span class="amount">R$ <?php echo formatPrice($cart["vltotal"]); ?></span></strong> </td>
+                                                <td><?php if( $cart["vltotal"] > 0 ){ ?><strong><span class="amount">R$ <?php echo formatPrice($cart["vltotal"]); ?></span></strong><?php } ?> </td>
                                             </tr>
                                         </tbody>
                                     </table>

@@ -14,6 +14,7 @@ class User extends Model
     const SECRET = "HcodePhp7_Secret";
     const ERROR = "UserError";
     const ERROR_REGISTER = "UserErrorRegister";
+    const SUCCESS = "UserSuccess";
 
     public static function getFromSession ()
     {
@@ -191,7 +192,7 @@ class User extends Model
     ));
  }
 
- public static function getForgot($email)
+ public static function getForgot($email, $inadmin=true)
  {
     $sql = new SQL;
     
@@ -229,7 +230,10 @@ class User extends Model
             $cipher="AES-128-ECB";
             $code = base64_encode(openssl_encrypt($dataRecovery["idrecovery"],$cipher,USER::SECRET));
 
-            $link = "http://www.hcodecommerce.com.br/admin/forgot/reset?code=$code";
+            if ($inadmin) $link = "http://www.hcodecommerce.com.br/admin/forgot/reset?code=$code";
+
+            if (!$inadmin) $link = "http://www.hcodecommerce.com.br/forgot/reset?code=$code";
+            
 
             $mailer = new Mailer($data["desemail"],$data["desperson"],"Redefinir senha","forgot",
         array(
@@ -349,6 +353,26 @@ array(
 
      return (count($results) > 0);
 
+ }
+
+ public static function setSuccess($msg)
+ {
+     $_SESSION[USer::SUCCESS] = $msg;
+ }
+
+ public static function getSuccess()
+ {
+     $msg =  (isset($_SESSION[USer::SUCCESS]) && $_SESSION[USer::SUCCESS]) ? $_SESSION[USer::SUCCESS] : "";
+
+     USer::clearSuccess();
+
+     return $msg;
+
+ }
+
+ public static function clearSuccess()
+ {
+     $_SESSION[USer::SUCCESS] = NULL;
  }
 
  
